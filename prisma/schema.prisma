@@ -11,56 +11,51 @@ datasource db {
 }
 
 model ProjectDetails {
-    id                   String   @id @default(cuid())
-    name                 String
+    name                 String   @id
     poster               String
     icon                 String
     subtitle             String
     description          String[]
     technicalDescription String
     links                String[]
-    qrCode               QrCode?
     video                String?
     videoPosition        Int?
     screenshots          String[]
     landscape            Boolean
 
-    projectId String  @unique
-    project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    qrCodeUrl String? @unique
+    qrCode    QrCode? @relation(fields: [qrCodeUrl], references: [url], onDelete: Cascade)
+    project   Project @relation(fields: [name], references: [name], onDelete: Cascade)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
 model QrCode {
-    id  String @id @default(cuid())
-    url String
+    url String @id
     qr  String
 
-    projectDetailsId String         @unique
-    projectDetails   ProjectDetails @relation(fields: [projectDetailsId], references: [id], onDelete: Cascade)
+    ProjectDetails ProjectDetails?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
 model Project {
-    id        String @id @default(cuid())
-    name      String
-    poster    String
-    position  Int
-    sectionId String
+    name     String @id
+    poster   String
+    position Int
 
-    section Section         @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-    details ProjectDetails?
+    sectionName String
+    section     Section         @relation(fields: [sectionName], references: [name], onDelete: Cascade)
+    details     ProjectDetails?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
 model Section {
-    id       String @id @default(cuid())
-    name     String
+    name     String @id
     position Int
 
     projects Project[]

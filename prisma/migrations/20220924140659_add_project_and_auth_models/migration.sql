@@ -1,6 +1,5 @@
 -- CreateTable
 CREATE TABLE "ProjectDetails" (
-    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "poster" TEXT NOT NULL,
     "icon" TEXT NOT NULL,
@@ -12,47 +11,44 @@ CREATE TABLE "ProjectDetails" (
     "videoPosition" INTEGER,
     "screenshots" TEXT[],
     "landscape" BOOLEAN NOT NULL,
-    "projectId" TEXT NOT NULL,
+    "qrCodeUrl" TEXT,
+    "projectName" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "ProjectDetails_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "ProjectDetails_pkey" PRIMARY KEY ("name")
 );
 
 -- CreateTable
 CREATE TABLE "QrCode" (
-    "id" TEXT NOT NULL,
     "url" TEXT NOT NULL,
     "qr" TEXT NOT NULL,
-    "projectDetailsId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "QrCode_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "QrCode_pkey" PRIMARY KEY ("url")
 );
 
 -- CreateTable
 CREATE TABLE "Project" (
-    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "poster" TEXT NOT NULL,
     "position" INTEGER NOT NULL,
-    "sectionId" TEXT NOT NULL,
+    "sectionName" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Project_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Project_pkey" PRIMARY KEY ("name")
 );
 
 -- CreateTable
 CREATE TABLE "Section" (
-    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "position" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Section_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Section_pkey" PRIMARY KEY ("name")
 );
 
 -- CreateTable
@@ -102,10 +98,10 @@ CREATE TABLE "VerificationToken" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ProjectDetails_projectId_key" ON "ProjectDetails"("projectId");
+CREATE UNIQUE INDEX "ProjectDetails_qrCodeUrl_key" ON "ProjectDetails"("qrCodeUrl");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "QrCode_projectDetailsId_key" ON "QrCode"("projectDetailsId");
+CREATE UNIQUE INDEX "ProjectDetails_projectName_key" ON "ProjectDetails"("projectName");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
@@ -123,13 +119,13 @@ CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token"
 CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");
 
 -- AddForeignKey
-ALTER TABLE "ProjectDetails" ADD CONSTRAINT "ProjectDetails_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "ProjectDetails" ADD CONSTRAINT "ProjectDetails_qrCodeUrl_fkey" FOREIGN KEY ("qrCodeUrl") REFERENCES "QrCode"("url") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "QrCode" ADD CONSTRAINT "QrCode_projectDetailsId_fkey" FOREIGN KEY ("projectDetailsId") REFERENCES "ProjectDetails"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "ProjectDetails" ADD CONSTRAINT "ProjectDetails_projectName_fkey" FOREIGN KEY ("projectName") REFERENCES "Project"("name") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Project" ADD CONSTRAINT "Project_sectionId_fkey" FOREIGN KEY ("sectionId") REFERENCES "Section"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Project" ADD CONSTRAINT "Project_sectionName_fkey" FOREIGN KEY ("sectionName") REFERENCES "Section"("name") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
