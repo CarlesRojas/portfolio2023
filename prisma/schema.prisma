@@ -6,8 +6,67 @@ generator client {
 }
 
 datasource db {
-    provider = "mysql"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
+}
+
+model ProjectDetails {
+    id                   String   @id @default(cuid())
+    name                 String
+    poster               String
+    icon                 String
+    subtitle             String
+    description          String[]
+    technicalDescription String
+    links                String[]
+    qrCode               QrCode?
+    video                String?
+    videoPosition        Int?
+    screenshots          String[]
+    landscape            Boolean
+
+    projectId String  @unique
+    project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model QrCode {
+    id  String @id @default(cuid())
+    url String
+    qr  String
+
+    projectDetailsId String         @unique
+    projectDetails   ProjectDetails @relation(fields: [projectDetailsId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Project {
+    id        String @id @default(cuid())
+    name      String
+    poster    String
+    position  Int
+    sectionId String
+
+    section Section         @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+    details ProjectDetails?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Section {
+    id       String @id @default(cuid())
+    name     String
+    position Int
+
+    projects Project[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Account {
@@ -23,7 +82,8 @@ model Account {
     scope             String?
     id_token          String? @db.Text
     session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
 }
@@ -33,7 +93,8 @@ model Session {
     sessionToken String   @unique
     userId       String
     expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -42,8 +103,9 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
-    accounts      Account[]
-    sessions      Session[]
+
+    accounts Account[]
+    sessions Session[]
 }
 
 model VerificationToken {
