@@ -15,9 +15,6 @@ export const publicRouter = createRouter()
         input: z.object({ name: z.string() }),
         async resolve({ input }) {
             const { name } = input;
-            return await prisma.projectDetails.findUnique({
-                where: { name },
-                include: { qrCode: true },
-            });
+            return await prisma.projectDetails.findUnique({ where: { name } });
         },
     });

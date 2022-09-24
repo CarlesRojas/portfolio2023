@@ -22,32 +22,22 @@ model ProjectDetails {
     videoPosition        Int?
     screenshots          String[]
     landscape            Boolean
+    qrCode               String?
 
-    qrCodeUrl String? @unique
-    qrCode    QrCode? @relation(fields: [qrCodeUrl], references: [url], onDelete: Cascade)
-    project   Project @relation(fields: [name], references: [name], onDelete: Cascade)
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
-model QrCode {
-    url String @id
-    qr  String
-
-    ProjectDetails ProjectDetails?
+    project Project @relation(fields: [name], references: [name], onDelete: Cascade, onUpdate: Cascade)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
 model Project {
-    name     String @id
+    name     String  @id
     poster   String
     position Int
+    visible  Boolean @default(true)
 
     sectionName String
-    section     Section         @relation(fields: [sectionName], references: [name], onDelete: Cascade)
+    section     Section         @relation(fields: [sectionName], references: [name], onDelete: Cascade, onUpdate: Cascade)
     details     ProjectDetails?
 
     createdAt DateTime @default(now())
@@ -55,8 +45,9 @@ model Project {
 }
 
 model Section {
-    name     String @id
+    name     String  @id
     position Int
+    visible  Boolean @default(true)
 
     projects Project[]
 
