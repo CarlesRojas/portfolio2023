@@ -6,7 +6,7 @@ import type { AppType } from "next/dist/shared/lib/utils";
 import Head from "next/head";
 import { useEffect } from "react";
 import superjson from "superjson";
-import type { AppRouter } from "@server/router";
+import type { AppRouter } from "@server/infra/views";
 import "@styles/globals.scss";
 
 const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => {

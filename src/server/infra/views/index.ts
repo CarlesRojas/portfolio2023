@@ -1,5 +1,5 @@
 // src/server/router/index.ts
-import { createRouter } from "./context";
+import { createRouter } from "@server/infra/views/utils/context";
 import superjson from "superjson";
 
 export const appRouter = createRouter().transformer(superjson);
