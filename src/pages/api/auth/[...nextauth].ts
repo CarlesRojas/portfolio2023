@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "@server/infra/views/utils/client";
+import { prisma } from "@server/utils/client";
 import { env } from "@env/server.mjs";
 import { RoutePaths } from "@interfaces/routes";
 

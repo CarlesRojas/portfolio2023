@@ -2,8 +2,8 @@
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { Session } from "next-auth";
-import { getServerAuthSession } from "@server/infra/views/utils/get-server-auth-session";
-import { prisma } from "@server/infra/views/utils/client";
+import { getServerAuthSession } from "@server/utils/get-server-auth-session";
+import { prisma } from "@server/utils/client";
 
 type CreateContextOptions = {
     session: Session | null;
