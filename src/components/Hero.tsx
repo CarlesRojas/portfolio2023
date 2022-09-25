@@ -28,7 +28,8 @@ const Hero = ({ header, footer }: HeroProps) => {
             {header && (
                 <header>
                     <Image src={ProfilePicture} alt="profile picture" priority />
-                    <h1>{"Hi, I'm Carles Rojas"}</h1>
+                    <small>{"Hi"}</small>
+                    <h1>{"I'm Carles Rojas"}</h1>
                     <h2>{"Software Engineer & Designer from Barcelona"}</h2>
                 </header>
             )}

@@ -1,20 +1,24 @@
 @import "@styles/mixins.scss";
 
 @mixin header {
-    font-size: 1.3rem;
-    font-weight: 400;
+    font-size: 1.4rem;
+    font-weight: 500;
+
+    @include for-tablet {
+        font-size: 1.5rem;
+    }
 
     @include for-desktop {
-        font-size: 1.5rem;
+        font-size: 1.7rem;
     }
 }
 
 @mixin header-small {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 300;
 
     @include for-desktop {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 }
 
@@ -51,7 +55,7 @@
 
 @mixin card($level) {
     border-radius: 0.75rem;
-    box-shadow: rgba(0, 0, 0, 0.6) 0px 26px 30px -10px, rgba(0, 0, 0, 0.7) 0px 16px 10px -10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 26px 30px -10px, rgba(0, 0, 0, 0.5) 0px 16px 10px -10px;
 
     @include for-desktop {
         border-radius: 1rem;
@@ -78,7 +82,7 @@
     }
 
     @include dark {
-        box-shadow: rgba(0, 0, 0, 0.6) 0px 26px 30px -10px, rgba(0, 0, 0, 0.7) 0px 16px 10px -10px;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 26px 30px -10px, rgba(0, 0, 0, 0.5) 0px 16px 10px -10px;
 
         @if $level == 1 {
             background-color: #232633;
