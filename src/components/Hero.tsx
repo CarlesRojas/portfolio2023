@@ -44,27 +44,29 @@ const Hero = ({ header, footer }: HeroProps) => {
 
     return (
         <div className={`${s.hero} ${!header || !footer ? s.fitContent : ""}`}>
-            {header && (
-                <header>
-                    <Image src={ProfilePicture} alt="profile picture" priority onClick={onProfileClick} />
-                    <small>{"Hi"}</small>
-                    <h1>{"I'm Carles Rojas"}</h1>
-                    <h2>{"Software Engineer & Designer from Barcelona"}</h2>
-                </header>
-            )}
+            <div className={s.card}>
+                {header && (
+                    <header>
+                        <Image src={ProfilePicture} alt="profile picture" priority onClick={onProfileClick} />
+                        <small>{"Hi"}</small>
+                        <h1>{"I'm Carles Rojas"}</h1>
+                        <h2>{"Software Engineer & Designer from Barcelona"}</h2>
+                    </header>
+                )}
 
-            {footer && (
-                <footer style={{ gridTemplateRows: `repeat(${studies.current.length + 1}, 1fr)` }}>
-                    {studies.current.map((study) => (
-                        <Study key={study.degreeTitle} {...study} />
-                    ))}
+                {footer && (
+                    <footer style={{ gridTemplateRows: `repeat(${studies.current.length + 1}, auto)` }}>
+                        {studies.current.map((study) => (
+                            <Study key={study.degreeTitle} {...study} />
+                        ))}
 
-                    <div className={s.email}>
-                        <button onClick={onCopyEmail}>{"carlesrojas@outlook.com"}</button>
-                        <small className={emailCopied ? s.visible : ""}>{"email copied"}</small>
-                    </div>
-                </footer>
-            )}
+                        <div className={s.email}>
+                            <small className={emailCopied ? s.visible : ""}>{"email copied"}</small>
+                            <button onClick={onCopyEmail}>{"carlesrojas@outlook.com"}</button>
+                        </div>
+                    </footer>
+                )}
+            </div>
         </div>
     );
 };

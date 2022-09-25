@@ -1,0 +1,1 @@
+export const DESKTOP_THRESHOLD = 1200;

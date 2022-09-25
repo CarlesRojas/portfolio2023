@@ -2,120 +2,143 @@
 
 .hero {
     position: relative;
-    display: flex;
-    flex-direction: column;
     justify-content: space-between;
     height: 100%;
     width: 100%;
-    padding: min(10%, 4rem);
-    gap: 1rem;
-    @include card(1);
+    padding: 1rem;
 
     @include for-tablet {
-        gap: 3rem;
+        padding: 3rem;
     }
 
     @include for-desktop {
-        gap: 4rem;
+        padding: 4rem;
     }
 
-    &.fitContent {
-        height: auto;
+    @include for-landscape {
+        @include for-desktop {
+            padding: min(10%, 4rem);
+            padding-right: 0;
+        }
     }
 
-    header {
+    .card {
+        position: relative;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        justify-content: space-between;
+        height: 100%;
         width: 100%;
+        padding: min(10%, 4rem);
+        gap: 1rem;
+        @include card(1);
 
-        img {
+        @include for-tablet {
+            gap: 3rem;
+        }
+
+        @include for-desktop {
+            gap: 4rem;
+        }
+
+        &.fitContent {
             height: auto;
-            width: 100%;
-            max-width: 17rem;
-
-            @include for-desktop {
-                max-width: 25rem;
-            }
         }
 
-        small {
-            max-width: 25rem;
-            margin-top: 1rem;
-            text-align: center;
-            @include text-small;
-            @include text-low;
-
-            @include for-desktop {
-                width: 100%;
-                text-align: unset;
-            }
-        }
-
-        h1 {
-            max-width: 25rem;
-            margin: 0.2rem 0 0.5rem;
-            text-align: center;
-            @include header;
-
-            @include for-desktop {
-                width: 100%;
-                text-align: unset;
-            }
-        }
-
-        h2 {
-            max-width: 25rem;
-            text-align: center;
-
-            @include header-small;
-            @include text-low;
-
-            @include for-desktop {
-                width: 100%;
-                text-align: unset;
-            }
-        }
-    }
-
-    footer {
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 100%;
-        width: 100%;
-        row-gap: 2rem;
-
-        .email {
+        header {
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
 
-            button {
-                margin-bottom: 1rem;
-                padding: 1rem 1.5rem;
-                @include card(2);
+            img {
+                height: auto;
+                width: 100%;
+                max-width: 17rem;
 
                 @include for-desktop {
-                    &:hover {
-                        scale: 1.05;
-                    }
+                    max-width: 25rem;
                 }
             }
 
             small {
-                transition: opacity 0.2s ease-in-out;
-                @include text-small;
-                opacity: 0;
+                max-width: 25rem;
+                margin-top: 1rem;
                 text-align: center;
-
-                &.visible {
-                    @include text-low;
-                }
+                @include text-small;
+                @include text-low;
 
                 @include for-desktop {
-                    &:hover {
-                        scale: 1.1;
+                    width: 100%;
+                    text-align: unset;
+                }
+            }
+
+            h1 {
+                max-width: 25rem;
+                margin: 0.2rem 0 0.5rem;
+                text-align: center;
+                @include header;
+
+                @include for-desktop {
+                    width: 100%;
+                    text-align: unset;
+                }
+            }
+
+            h2 {
+                max-width: 25rem;
+                text-align: center;
+
+                @include header-small;
+                @include text-low;
+
+                @include for-desktop {
+                    width: 100%;
+                    text-align: unset;
+                }
+            }
+        }
+
+        footer {
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 100%;
+            width: 100%;
+            row-gap: 1rem;
+
+            .email {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+
+                small {
+                    transition: opacity 0.2s ease-in-out;
+                    @include text-small;
+                    opacity: 0;
+                    text-align: center;
+
+                    &.visible {
+                        @include text-low;
+                    }
+
+                    @include for-desktop {
+                        &:hover {
+                            scale: 1.1;
+                        }
+                    }
+                }
+
+                button {
+                    margin-top: 0.5rem;
+                    padding: 1rem 1.5rem;
+                    @include card(2);
+
+                    @include for-desktop {
+                        &:hover {
+                            scale: 1.05;
+                        }
                     }
                 }
             }

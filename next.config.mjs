@@ -15,4 +15,7 @@ export default defineNextConfig({
     swcMinify: true,
     output: "standalone",
     experimental: { images: { allowFutureImage: true } },
+    images: {
+        domains: ["portfoliomedia.s3.eu-west-1.amazonaws.com"],
+    },
 });
