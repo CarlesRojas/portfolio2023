@@ -8,7 +8,16 @@
     height: 100%;
     width: 100%;
     padding: min(10%, 4rem);
+    gap: 1.5rem;
     @include card(1);
+
+    @include for-tablet {
+        gap: 3rem;
+    }
+
+    @include for-desktop {
+        gap: 4rem;
+    }
 
     &.fitContent {
         height: auto;
@@ -17,8 +26,8 @@
     header {
         display: flex;
         flex-direction: column;
-        width: 100%;
         align-items: center;
+        width: 100%;
 
         img {
             height: auto;
@@ -46,10 +55,10 @@
     }
 
     footer {
-        width: 100%;
         display: grid;
-        grid-template-rows: 100%;
         grid-template-columns: 100%;
+        grid-template-rows: 100%;
+        width: 100%;
         row-gap: 2rem;
 
         .email {
@@ -59,9 +68,9 @@
             width: 100%;
 
             button {
+                margin-bottom: 1rem;
                 padding: 1rem 1.5rem;
                 @include card(2);
-                margin-bottom: 1rem;
             }
 
             small {
