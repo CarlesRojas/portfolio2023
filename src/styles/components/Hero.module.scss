@@ -8,7 +8,7 @@
     height: 100%;
     width: 100%;
     padding: min(10%, 4rem);
-    gap: 1.5rem;
+    gap: 1rem;
     @include card(1);
 
     @include for-tablet {
@@ -32,7 +32,7 @@
         img {
             height: auto;
             width: 100%;
-            max-width: 20rem;
+            max-width: 17rem;
 
             @include for-desktop {
                 max-width: 25rem;
