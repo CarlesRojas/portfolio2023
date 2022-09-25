@@ -1,0 +1,73 @@
+@import "@styles/shared";
+
+.hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    padding: min(10%, 4rem);
+    @include card(1);
+
+    &.fitContent {
+        height: auto;
+    }
+
+    header {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+
+        img {
+            height: auto;
+            width: 100%;
+            max-width: 25rem;
+        }
+
+        h1 {
+            width: 100%;
+            max-width: 25rem;
+            margin: 1rem 0 0.5rem;
+            @include header;
+
+            @include for-tablet {
+                margin: 2rem 0 0.5rem;
+            }
+        }
+
+        h2 {
+            width: 100%;
+            max-width: 25rem;
+            @include header-small;
+            @include text-low;
+        }
+    }
+
+    footer {
+        width: 100%;
+        display: grid;
+        grid-template-rows: 100%;
+        grid-template-columns: 100%;
+        row-gap: 2rem;
+
+        .email {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+
+            button {
+                padding: 1rem 1.5rem;
+                @include card(2);
+                margin-bottom: 1rem;
+            }
+
+            small {
+                @include text-small;
+                @include text-low;
+            }
+        }
+    }
+}

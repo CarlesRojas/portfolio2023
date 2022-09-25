@@ -1,20 +1,48 @@
+@import "@styles/mixins.scss";
+
 @mixin header {
-    font-size: 1.5em;
-    font-weight: 600;
+    font-size: 1.3rem;
+    font-weight: 400;
+
+    @include for-desktop {
+        font-size: 1.6rem;
+    }
 }
 
 @mixin header-small {
-    font-size: 1.1em;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 300;
+
+    @include for-desktop {
+        font-size: 1.3rem;
+    }
+}
+
+@mixin text {
+    font-size: 0.9rem;
+    font-weight: 300;
+
+    @include for-desktop {
+        font-size: 1.1rem;
+    }
 }
 
 @mixin text-bold {
+    font-size: 0.9rem;
     font-weight: 600;
+
+    @include for-desktop {
+        font-size: 1.1rem;
+    }
 }
 
 @mixin text-small {
     font-size: 0.75em;
-    font-weight: 600;
+    font-weight: 300;
+
+    @include for-desktop {
+        font-size: 0.9rem;
+    }
 }
 
 @mixin text-low {
@@ -22,8 +50,12 @@
 }
 
 @mixin card($level) {
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     box-shadow: rgba(0, 0, 0, 0.6) 0px 26px 30px -10px, rgba(0, 0, 0, 0.7) 0px 16px 10px -10px;
+
+    @include for-desktop {
+        border-radius: 1rem;
+    }
 
     @if $level == 1 {
         background-color: #232633;
@@ -34,6 +66,8 @@
     }
 
     @include light {
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 26px 30px -10px, rgba(0, 0, 0, 0.4) 0px 16px 10px -10px;
+
         @if $level == 1 {
             background-color: #e6e6e6;
         } @else if $level == 2 {
@@ -44,6 +78,8 @@
     }
 
     @include dark {
+        box-shadow: rgba(0, 0, 0, 0.6) 0px 26px 30px -10px, rgba(0, 0, 0, 0.7) 0px 16px 10px -10px;
+
         @if $level == 1 {
             background-color: #232633;
         } @else if $level == 2 {

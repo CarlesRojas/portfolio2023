@@ -23,6 +23,7 @@
             "@hooks/*": ["src/hooks/*"],
             "@interfaces/*": ["src/interfaces/*"],
             "@pages/*": ["src/pages/*"],
+            "@resources/*": ["src/resources/*"],
             "@server/*": ["src/server/*"],
             "@styles/*": ["src/styles/*"],
             "@utils/*": ["src/utils/*"]

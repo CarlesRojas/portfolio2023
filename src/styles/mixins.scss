@@ -11,13 +11,19 @@
 }
 
 @mixin for-desktop {
-    @media (min-width: 1100px) {
+    @media (min-width: 1200px) {
         @content;
     }
 }
 
 @mixin for-mouse {
     @media (hover: hover) {
+        @content;
+    }
+}
+
+@mixin for-landscape {
+    @media (orientation: landscape) {
         @content;
     }
 }
