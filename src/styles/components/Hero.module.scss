@@ -40,6 +40,7 @@
         }
 
         small {
+            max-width: 25rem;
             margin-top: 1rem;
             text-align: center;
             @include text-small;
@@ -94,11 +95,29 @@
                 margin-bottom: 1rem;
                 padding: 1rem 1.5rem;
                 @include card(2);
+
+                @include for-desktop {
+                    &:hover {
+                        scale: 1.05;
+                    }
+                }
             }
 
             small {
+                transition: opacity 0.2s ease-in-out;
                 @include text-small;
-                @include text-low;
+                opacity: 0;
+                text-align: center;
+
+                &.visible {
+                    @include text-low;
+                }
+
+                @include for-desktop {
+                    &:hover {
+                        scale: 1.1;
+                    }
+                }
             }
         }
     }

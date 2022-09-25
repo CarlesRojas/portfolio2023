@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-export default function useAutoResetState(initialValue: any, duration: number) {
+export default function useAutoResetState(initialValue: any, durationInMilliseconds: number) {
     const [internalState, setInternalState] = useState(initialValue);
 
     useEffect(() => {
         let timeout: NodeJS.Timeout | null = null;
-        if (internalState !== initialValue) timeout = setTimeout(() => setInternalState(initialValue), duration);
+        if (internalState !== initialValue)
+            timeout = setTimeout(() => setInternalState(initialValue), durationInMilliseconds);
 
         return () => {
             timeout && clearTimeout(timeout);
         };
-    }, [duration, initialValue, internalState]);
+    }, [durationInMilliseconds, initialValue, internalState]);
 
     return [internalState, setInternalState];
 }

@@ -3,6 +3,7 @@ import ProfilePicture from "@resources/profile/Profile.png";
 import Image from "next/future/image";
 import { useRef } from "react";
 import Study, { StudyProps } from "./Study";
+import useAutoResetState from "@hooks/useAutoResetState";
 
 interface HeroProps {
     header?: boolean;
@@ -23,6 +24,13 @@ const Hero = ({ header, footer }: HeroProps) => {
         },
     ]);
 
+    const [emailCopied, setEmailCopied] = useAutoResetState(false, 3000);
+
+    const onCopyEmail = () => {
+        navigator.clipboard.writeText("carlesrojas@outlook.com");
+        setEmailCopied(true);
+    };
+
     return (
         <div className={`${s.hero} ${!header || !footer ? s.fitContent : ""}`}>
             {header && (
@@ -41,8 +49,8 @@ const Hero = ({ header, footer }: HeroProps) => {
                     ))}
 
                     <div className={s.email}>
-                        <button>{"carlesrojas@outlook.com"}</button>
-                        <small>{"email copied"}</small>
+                        <button onClick={onCopyEmail}>{"carlesrojas@outlook.com"}</button>
+                        <small className={emailCopied ? s.visible : ""}>{"email copied"}</small>
                     </div>
                 </footer>
             )}
