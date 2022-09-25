@@ -18,6 +18,7 @@ export const privateRouter = createProtectedRouter()
             });
         },
     })
+
     .mutation("update-section", {
         input: z.object({
             originalName: z.string(),
@@ -34,6 +35,7 @@ export const privateRouter = createProtectedRouter()
             });
         },
     })
+
     .mutation("delete-section", {
         input: z.object({ name: z.string() }),
         async resolve({ input }) {
@@ -117,6 +119,7 @@ export const privateRouter = createProtectedRouter()
             });
         },
     })
+
     .mutation("update-project", {
         input: z.object({
             originalName: z.string(),
@@ -178,6 +181,7 @@ export const privateRouter = createProtectedRouter()
             });
         },
     })
+
     .mutation("delete-project", {
         input: z.object({ name: z.string() }),
         async resolve({ input }) {

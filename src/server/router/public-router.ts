@@ -11,6 +11,7 @@ export const publicRouter = createRouter()
             });
         },
     })
+
     .query("get-project-details", {
         input: z.object({ name: z.string() }),
         async resolve({ input }) {
