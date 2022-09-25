@@ -1,9 +1,11 @@
 import s from "@styles/components/Hero.module.scss";
 import ProfilePicture from "@resources/profile/Profile.png";
 import Image from "next/future/image";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Study, { StudyProps } from "./Study";
 import useAutoResetState from "@hooks/useAutoResetState";
+import { useRouter } from "next/router";
+import { RoutePaths } from "@interfaces/routes";
 
 interface HeroProps {
     header?: boolean;
@@ -11,6 +13,8 @@ interface HeroProps {
 }
 
 const Hero = ({ header, footer }: HeroProps) => {
+    const router = useRouter();
+
     const studies = useRef<StudyProps[]>([
         {
             degreeTitle: "Bachelor's Degree in informatics Engineering",
@@ -25,17 +29,24 @@ const Hero = ({ header, footer }: HeroProps) => {
     ]);
 
     const [emailCopied, setEmailCopied] = useAutoResetState(false, 3000);
-
     const onCopyEmail = () => {
         navigator.clipboard.writeText("carlesrojas@outlook.com");
         setEmailCopied(true);
     };
 
+    const [profileClicks, setProfileClicks] = useAutoResetState(0, 500);
+    const onProfileClick = () => {
+        setProfileClicks((prev: number) => Math.min(10, prev + 1));
+    };
+    useEffect(() => {
+        if (profileClicks >= 10) router.push(RoutePaths.LOGIN);
+    }, [profileClicks, router]);
+
     return (
         <div className={`${s.hero} ${!header || !footer ? s.fitContent : ""}`}>
             {header && (
                 <header>
-                    <Image src={ProfilePicture} alt="profile picture" priority />
+                    <Image src={ProfilePicture} alt="profile picture" priority onClick={onProfileClick} />
                     <small>{"Hi"}</small>
                     <h1>{"I'm Carles Rojas"}</h1>
                     <h2>{"Software Engineer & Designer from Barcelona"}</h2>

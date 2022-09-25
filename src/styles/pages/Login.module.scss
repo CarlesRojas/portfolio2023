@@ -1,0 +1,35 @@
+@import "@styles/mixins.scss";
+@import "@styles/shared.scss";
+
+.login {
+    @include page;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    img {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    button {
+        display: flex;
+        padding: 1rem 1.5rem;
+        @include card(2);
+
+        @include for-desktop {
+            &:hover {
+                scale: 1.05;
+            }
+        }
+
+        svg {
+            margin-right: 1rem;
+            height: calc(var(--button-height) * 0.6);
+            width: calc(var(--button-height) * 0.6);
+        }
+    }
+}
