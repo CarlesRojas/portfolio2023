@@ -6,8 +6,14 @@ export const publicRouter = createRouter()
     .query("get-sections", {
         async resolve() {
             return await prisma.section.findMany({
+                where: { visible: true },
                 orderBy: { position: "asc" },
-                include: { projects: { orderBy: { position: "asc" } } },
+                include: {
+                    projects: {
+                        where: { visible: true },
+                        orderBy: { position: "asc" },
+                    },
+                },
             });
         },
     })

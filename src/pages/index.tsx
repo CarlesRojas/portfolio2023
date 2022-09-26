@@ -11,8 +11,8 @@ const Home: NextPage = () => {
 
     // useDidMount(() => {
     //     mutate({
-    //         name: "Delete6",
-    //         position: 6,
+    //         name: "Delete Game 6",
+    //         position: 0,
     //         poster: "https://portfoliomedia.s3.eu-west-1.amazonaws.com/poster.jpg",
     //         icon: "",
     //         subtitle: "",
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
     //         screenshots: [""],
     //         landscape: true,
     //         qrCode: "",
-    //         sectionName: "Product Design",
+    //         sectionName: "Game Development",
     //     });
     // });
 
@@ -34,7 +34,9 @@ const Home: NextPage = () => {
             <Hero header />
 
             <div className={s.content}>
-                {sections?.map((section) => section.visible && <Section key={section.name} section={section} />)}
+                {sections?.map((section) => (
+                    <Section key={section.name} section={section} />
+                ))}
             </div>
 
             <Hero footer />

@@ -36,14 +36,10 @@ const Section = ({ section }: SectionProps) => {
     const projects = useRef<(HTMLLIElement | null)[]>(new Array(section.projects.length));
     const { allVisible, firstVisible, lastVisible, maxVisible } = useObservableList(containerRef, projects);
 
+    // Has to be the same as --gap in @styles/components/Section.module.scss
     const getPadding = () => {
         const width = containerRef.current?.getBoundingClientRect().width || 0;
-
-        // Has to be the same as --gap in @styles/components/Section.module.scss
-        const padding =
-            width < TABLET_THRESHOLD ? 16 : width < DESKTOP_THRESHOLD ? 16 * 3 : Math.min(width * 0.035, 16 * 4);
-
-        return padding;
+        return width < TABLET_THRESHOLD ? 16 : width < DESKTOP_THRESHOLD ? 16 * 3 : Math.min(width * 0.035, 16 * 4);
     };
 
     const onScrollButtonClicked = (showNext: boolean) => {
