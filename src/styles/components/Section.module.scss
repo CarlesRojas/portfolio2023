@@ -14,7 +14,11 @@
     @include for-desktop {
         --gap: min(3.5%, 4rem);
         --paddingTop: 1rem;
-        --paddingBot: 4rem;
+        --paddingBot: min(3.5%, 4rem);
+    }
+
+    &:last-child {
+        --paddingBot: 0;
     }
 
     h1 {
@@ -136,6 +140,8 @@
 
                     @include for-mouse {
                         transition: scale 0.1s ease-in-out;
+                        cursor: pointer;
+
                         &:hover {
                             scale: 1.03;
                         }

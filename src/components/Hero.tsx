@@ -1,11 +1,11 @@
 import s from "@styles/components/Hero.module.scss";
 import ProfilePicture from "@resources/profile/Profile.png";
 import Image from "next/future/image";
-import { useEffect, useRef } from "react";
-import Study, { StudyProps } from "./Study";
+import { useEffect } from "react";
 import useAutoResetState from "@hooks/useAutoResetState";
 import { useRouter } from "next/router";
 import { RoutePaths } from "@interfaces/routes";
+import { RiGithubFill, RiLinkedinFill, RiMailFill } from "react-icons/ri";
 
 interface HeroProps {
     header?: boolean;
@@ -14,25 +14,6 @@ interface HeroProps {
 
 const Hero = ({ header, footer }: HeroProps) => {
     const router = useRouter();
-
-    const studies = useRef<StudyProps[]>([
-        {
-            degreeTitle: "Bachelor's Degree in informatics Engineering",
-            educationCenter: "Facultat d'Informàtica de Barcelona",
-            years: "2015 - 2018",
-        },
-        {
-            degreeTitle: "Bachelor's Degree in Product Design",
-            educationCenter: "EINA Centre Universitari de Disseny i Art de Barcelona",
-            years: "2011 - 2015",
-        },
-    ]);
-
-    const [emailCopied, setEmailCopied] = useAutoResetState(false, 3000);
-    const onCopyEmail = () => {
-        navigator.clipboard.writeText("carlesrojas@outlook.com");
-        setEmailCopied(true);
-    };
 
     const [profileClicks, setProfileClicks] = useAutoResetState(0, 500);
     const onProfileClick = () => {
@@ -55,15 +36,18 @@ const Hero = ({ header, footer }: HeroProps) => {
                 )}
 
                 {footer && (
-                    <footer style={{ gridTemplateRows: `repeat(${studies.current.length + 1}, auto)` }}>
-                        {studies.current.map((study) => (
-                            <Study key={study.degreeTitle} {...study} />
-                        ))}
+                    <footer>
+                        <a href="https://www.linkedin.com/in/carles-rojas/" target="_blank" rel="noopener noreferrer">
+                            <RiLinkedinFill />
+                        </a>
 
-                        <div className={s.email}>
-                            <small className={emailCopied ? s.visible : ""}>{"email copied"}</small>
-                            <button onClick={onCopyEmail}>{"carlesrojas@outlook.com"}</button>
-                        </div>
+                        <a href="https://github.com/CarlesRojas" target="_blank" rel="noopener noreferrer">
+                            <RiGithubFill />
+                        </a>
+
+                        <a href="mailto:carlesrojas@outlook.com" target="_blank" rel="noopener noreferrer">
+                            <RiMailFill />
+                        </a>
                     </footer>
                 )}
             </div>

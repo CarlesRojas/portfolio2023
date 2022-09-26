@@ -25,9 +25,11 @@
 @mixin header-small {
     font-size: 1rem;
     font-weight: 300;
+    line-height: 1.4rem;
 
     @include for-desktop {
         font-size: 1.1rem;
+        line-height: 1.5rem;
     }
 }
 
@@ -83,7 +85,7 @@
     }
 
     @include light {
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 26px 30px -10px, rgba(0, 0, 0, 0.4) 0px 16px 10px -10px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 26px 30px -10px, rgba(0, 0, 0, 0.2) 0px 16px 10px -10px;
 
         @if $level == 1 {
             background-color: #e6e6e6;
