@@ -36,7 +36,6 @@ const SectionTitle = ({ section, numberOfSections }: SectionTitleProps) => {
                     }
                 }
 
-                newSections.sort((a, b) => a.position - b.position);
                 trpcContext.setQueryData(["private-get-sections"], newSections);
             }
 
@@ -124,13 +123,13 @@ const SectionTitle = ({ section, numberOfSections }: SectionTitleProps) => {
 
     const controls = [
         { icon: renaming ? <RiSendPlane2Fill /> : <RiEdit2Fill />, onClick: rename, disabled: isLoading },
-        { icon: section.visible ? <RiEyeOffFill /> : <RiEyeFill />, onClick: onShowHide, disabled: isLoading },
         {
             icon: <RiArrowDownLine />,
             onClick: onMoveDown,
             disabled: isLoading || section.position >= numberOfSections - 1,
         },
         { icon: <RiArrowUpLine />, onClick: onMoveUp, disabled: isLoading || section.position <= 0 },
+        { icon: section.visible ? <RiEyeOffFill /> : <RiEyeFill />, onClick: onShowHide, disabled: isLoading },
     ];
 
     return (
@@ -143,7 +142,11 @@ const SectionTitle = ({ section, numberOfSections }: SectionTitleProps) => {
                 </form>
             )}
 
-            {status === SessionStatus.AUTHENTICATED && <Controls controls={controls} />}
+            {status === SessionStatus.AUTHENTICATED && (
+                <div className={s.controls}>
+                    <Controls controls={controls} />
+                </div>
+            )}
         </div>
     );
 };

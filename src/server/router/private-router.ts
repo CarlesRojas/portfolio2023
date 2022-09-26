@@ -57,7 +57,7 @@ export const privateRouter = createProtectedRouter()
     .mutation("update-section", {
         input: z.object({
             originalName: z.string(),
-            name: z.string().optional(),
+            name: z.string(),
             position: z.number(),
             visible: z.boolean(),
         }),
@@ -155,7 +155,7 @@ export const privateRouter = createProtectedRouter()
         },
     })
 
-    .mutation("update-project", {
+    .mutation("update-project-details", {
         input: z.object({
             originalName: z.string(),
             name: z.string(),
@@ -217,24 +217,43 @@ export const privateRouter = createProtectedRouter()
         },
     })
 
+    .mutation("update-project", {
+        input: z.object({
+            originalName: z.string(),
+            name: z.string(),
+            poster: z.string(),
+            position: z.number(),
+            visible: z.boolean(),
+            sectionName: z.string(),
+        }),
+        async resolve({ input }) {
+            const { originalName, name, position, visible } = input;
+
+            await prisma.project.update({
+                where: { name: originalName },
+                data: { name: name || originalName, position, visible },
+            });
+        },
+    })
+
     .mutation("move-project", {
         input: z.object({
             name: z.string(),
             position: z.number(),
             sectionName: z.string(),
-            down: z.boolean(),
+            right: z.boolean(),
         }),
         async resolve({ input }) {
-            const { name, position, sectionName, down } = input;
+            const { name, position, sectionName, right } = input;
 
             await prisma.project.update({
-                where: { sectionName_position: { sectionName, position: position + (down ? 1 : -1) } },
+                where: { sectionName_position: { sectionName, position: position + (right ? 1 : -1) } },
                 data: { position: -1 },
             });
 
             await prisma.project.update({
                 where: { name },
-                data: { position: position + (down ? 1 : -1) },
+                data: { position: position + (right ? 1 : -1) },
             });
 
             await prisma.project.update({

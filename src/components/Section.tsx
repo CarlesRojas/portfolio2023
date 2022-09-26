@@ -3,11 +3,9 @@ import useWindowSize from "@hooks/useWindowSize";
 import { DESKTOP_THRESHOLD, TABLET_THRESHOLD } from "@interfaces/constants";
 import { Project, Section } from "@prisma/client";
 import s from "@styles/components/Section.module.scss";
-import { getProjectRoute } from "@utils/getProjectRoute";
-import Image from "next/future/image";
-import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
+import ProjectCard from "./ProjectCard";
 import SectionTitle from "./SectionTitle";
 
 interface SectionProps {
@@ -66,17 +64,9 @@ const Section = ({ section, numberOfSections }: SectionProps) => {
                 <div className={s.scrollContainer} ref={containerRef}>
                     <ul>
                         {section.projects.map((project, i) => (
-                            <Link key={project.name} href={getProjectRoute(project.name)}>
-                                <li ref={(elem) => (projects.current[i] = elem)}>
-                                    <Image
-                                        src={project.poster}
-                                        alt={`${project.name} poster image`}
-                                        fill
-                                        priority
-                                        sizes="(max-width: 768px) 88vw, (max-width: 1200px) 42vw, (orientation: landscape) calc(18vh * 1.77777), 30vw"
-                                    />
-                                </li>
-                            </Link>
+                            <li key={project.name} ref={(elem) => (projects.current[i] = elem)}>
+                                <ProjectCard project={project} numberOfProjects={section.projects.length} />
+                            </li>
                         ))}
                     </ul>
                 </div>

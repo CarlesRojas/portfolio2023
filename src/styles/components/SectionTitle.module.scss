@@ -1,13 +1,15 @@
 @import "@styles/shared";
 
 .sectionTitle {
+    position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
+    padding-left: var(--gap);
 
     h1 {
         @include header-medium;
-        padding-left: var(--gap);
-        margin-right: 1rem;
+        white-space: nowrap;
 
         &.notVisible {
             opacity: 0.3;
@@ -17,8 +19,6 @@
     form {
         position: relative;
         height: 2.5rem;
-        padding-left: var(--gap);
-        margin-right: 1rem;
 
         input {
             @include card(3);
@@ -27,5 +27,15 @@
             width: fit-content;
             padding: 0 1rem;
         }
+    }
+
+    .controls {
+        position: absolute;
+        bottom: 0;
+        right: 0.5rem;
+        height: fit-content;
+        width: fit-content;
+        display: flex;
+        z-index: 1;
     }
 }

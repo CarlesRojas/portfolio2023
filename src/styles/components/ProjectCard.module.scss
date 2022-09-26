@@ -1,0 +1,68 @@
+@import "@styles/shared";
+
+.projectCard {
+    position: relative;
+    overflow: visible;
+
+    .imageContainer {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        width: 88vw;
+        min-width: 88vw;
+        max-width: 88vw;
+        overflow: visible;
+        @include card(1);
+
+        &.notVisible {
+            opacity: 0.3;
+        }
+
+        @include for-tablet {
+            width: 42vw;
+            min-width: 42vw;
+            max-width: 42vw;
+        }
+
+        @include for-desktop {
+            width: 30vw;
+            min-width: 30vw;
+            max-width: 30vw;
+        }
+
+        @include for-landscape {
+            @include for-desktop {
+                width: unset;
+                min-width: unset;
+                max-width: unset;
+                height: 18vh;
+                min-height: 18vh;
+                max-height: 18vh;
+            }
+        }
+
+        @include for-mouse {
+            transition: scale 0.1s ease-in-out;
+            cursor: pointer;
+
+            &:hover {
+                scale: 1.03;
+            }
+        }
+
+        img {
+            pointer-events: none;
+            user-select: none;
+            @include border-radius;
+        }
+    }
+
+    .controls {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        height: fit-content;
+        width: fit-content;
+        display: flex;
+        z-index: 1;
+    }
+}
