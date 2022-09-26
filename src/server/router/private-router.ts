@@ -28,47 +28,24 @@ export const privateRouter = createProtectedRouter()
         },
     })
 
-    .mutation("move-section-down", {
+    .mutation("move-section", {
         input: z.object({
             name: z.string(),
             position: z.number(),
+            down: z.boolean(),
         }),
         async resolve({ input }) {
-            const { name, position } = input;
+            const { name, position, down } = input;
+            console.log(name, position, down);
 
             await prisma.section.update({
-                where: { position: position + 1 },
+                where: { position: position + (down ? 1 : -1) },
                 data: { position: -1 },
             });
 
             await prisma.section.update({
                 where: { name },
-                data: { position: position + 1 },
-            });
-
-            await prisma.section.update({
-                where: { position: -1 },
-                data: { position: position },
-            });
-        },
-    })
-
-    .mutation("move-section-up", {
-        input: z.object({
-            name: z.string(),
-            position: z.number(),
-        }),
-        async resolve({ input }) {
-            const { name, position } = input;
-
-            await prisma.section.update({
-                where: { position: position - 1 },
-                data: { position: -1 },
-            });
-
-            await prisma.section.update({
-                where: { name },
-                data: { position: position - 1 },
+                data: { position: position + (down ? 1 : -1) },
             });
 
             await prisma.section.update({
@@ -241,49 +218,24 @@ export const privateRouter = createProtectedRouter()
         },
     })
 
-    .mutation("move-project-down", {
+    .mutation("move-project", {
         input: z.object({
             name: z.string(),
             position: z.number(),
             sectionName: z.string(),
+            down: z.boolean(),
         }),
         async resolve({ input }) {
-            const { name, position, sectionName } = input;
+            const { name, position, sectionName, down } = input;
 
             await prisma.project.update({
-                where: { sectionName_position: { sectionName, position: position + 1 } },
+                where: { sectionName_position: { sectionName, position: position + (down ? 1 : -1) } },
                 data: { position: -1 },
             });
 
             await prisma.project.update({
                 where: { name },
-                data: { position: position + 1 },
-            });
-
-            await prisma.project.update({
-                where: { sectionName_position: { sectionName, position: -1 } },
-                data: { position: position },
-            });
-        },
-    })
-
-    .mutation("move-project-up", {
-        input: z.object({
-            name: z.string(),
-            position: z.number(),
-            sectionName: z.string(),
-        }),
-        async resolve({ input }) {
-            const { name, position, sectionName } = input;
-
-            await prisma.project.update({
-                where: { sectionName_position: { sectionName, position: position - 1 } },
-                data: { position: -1 },
-            });
-
-            await prisma.project.update({
-                where: { name },
-                data: { position: position - 1 },
+                data: { position: position + (down ? 1 : -1) },
             });
 
             await prisma.project.update({

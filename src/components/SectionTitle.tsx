@@ -5,8 +5,10 @@ import { useSession } from "next-auth/react";
 import { RiArrowDownLine, RiArrowUpLine, RiEdit2Fill, RiEyeFill, RiEyeOffFill, RiSendPlane2Fill } from "react-icons/ri";
 import Controls from "./Controls";
 import { trpc } from "@server/utils/trpc";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { cloneDeep } from "lodash";
+import { useAtom } from "jotai";
+import { isLoadingAtom } from "@context/index";
 
 interface SectionTitleProps {
     section: Section;
@@ -17,8 +19,9 @@ const SectionTitle = ({ section, numberOfSections }: SectionTitleProps) => {
     const { status } = useSession();
 
     const trpcContext = trpc.useContext();
-    const { mutate: updateSection } = trpc.useMutation(["private-update-section"], {
-        onMutate: async (newSection) => {
+
+    const { mutate: updateSection, isLoading: updatingSection } = trpc.useMutation(["private-update-section"], {
+        onMutate: async (params) => {
             await trpcContext.cancelQuery(["private-get-sections"]);
             const prevSections = trpcContext.getQueryData(["private-get-sections"]);
 
@@ -27,8 +30,8 @@ const SectionTitle = ({ section, numberOfSections }: SectionTitleProps) => {
 
                 for (let i = 0; i < newSections.length; i++) {
                     const element = newSections[i];
-                    if (element && element.name === newSection.originalName) {
-                        newSections[i] = { ...newSections[i], ...newSection } as Section & { projects: Project[] };
+                    if (element && element.name === params.originalName) {
+                        newSections[i] = { ...newSections[i], ...params } as Section & { projects: Project[] };
                         break;
                     }
                 }
@@ -47,17 +50,66 @@ const SectionTitle = ({ section, numberOfSections }: SectionTitleProps) => {
         },
     });
 
+    const { mutate: moveSection, isLoading: movingSection } = trpc.useMutation(["private-move-section"], {
+        onMutate: async (params) => {
+            await trpcContext.cancelQuery(["private-get-sections"]);
+            const prevSections = trpcContext.getQueryData(["private-get-sections"]);
+
+            if (prevSections) {
+                const newSections = cloneDeep(prevSections);
+
+                let currIndex = -1;
+                let newIndex = -1;
+
+                for (let i = 0; i < newSections.length; i++) {
+                    const element = newSections[i];
+                    if (element && element.name === params.name) {
+                        currIndex = i;
+                        break;
+                    }
+                }
+
+                newIndex = currIndex + (params.down ? 1 : -1);
+
+                if (currIndex < newSections.length && newIndex < newSections.length) {
+                    const aux = { ...newSections[currIndex], position: newIndex } as Section & { projects: Project[] };
+                    newSections[currIndex] = { ...newSections[newIndex], position: currIndex } as Section & {
+                        projects: Project[];
+                    };
+                    newSections[newIndex] = aux;
+                }
+
+                console.log(newSections);
+
+                trpcContext.setQueryData(["private-get-sections"], newSections);
+            }
+
+            return { prevSections: prevSections || [] };
+        },
+        onError: (_error, _value, context) => {
+            if (context) trpcContext.setQueryData(["private-get-sections"], context.prevSections);
+        },
+        onSettled: () => {
+            trpcContext.invalidateQueries(["private-get-sections"]);
+        },
+    });
+
+    const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
+
+    useEffect(() => {
+        setIsLoading(updatingSection || movingSection);
+    }, [updatingSection, movingSection, setIsLoading]);
+
     const onShowHide = () => {
         updateSection({ ...section, originalName: section.name, visible: !section.visible });
     };
 
     const onMoveDown = () => {
-        updateSection({ ...section, originalName: section.name });
-        console.log("Move down");
+        moveSection({ name: section.name, position: section.position, down: true });
     };
 
     const onMoveUp = () => {
-        console.log("Move up");
+        moveSection({ name: section.name, position: section.position, down: false });
     };
 
     const [renaming, setRenaming] = useState(false);
@@ -73,10 +125,14 @@ const SectionTitle = ({ section, numberOfSections }: SectionTitleProps) => {
     };
 
     const controls = [
-        { icon: renaming ? <RiSendPlane2Fill /> : <RiEdit2Fill />, onClick: rename, disabled: false },
-        { icon: section.visible ? <RiEyeFill /> : <RiEyeOffFill />, onClick: onShowHide, disabled: false },
-        { icon: <RiArrowDownLine />, onClick: onMoveDown, disabled: section.position >= numberOfSections - 1 },
-        { icon: <RiArrowUpLine />, onClick: onMoveUp, disabled: section.position <= 0 },
+        { icon: renaming ? <RiSendPlane2Fill /> : <RiEdit2Fill />, onClick: rename, disabled: isLoading },
+        { icon: section.visible ? <RiEyeFill /> : <RiEyeOffFill />, onClick: onShowHide, disabled: isLoading },
+        {
+            icon: <RiArrowDownLine />,
+            onClick: onMoveDown,
+            disabled: isLoading || section.position >= numberOfSections - 1,
+        },
+        { icon: <RiArrowUpLine />, onClick: onMoveUp, disabled: isLoading || section.position <= 0 },
     ];
 
     return (
