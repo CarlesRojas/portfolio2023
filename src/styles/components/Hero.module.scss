@@ -63,15 +63,21 @@
             align-items: center;
             width: 100%;
 
-            img {
-                height: auto;
+            .profileImage {
+                position: relative;
                 width: 100%;
                 max-width: 17rem;
+                aspect-ratio: 1;
                 pointer-events: none;
                 user-select: none;
 
                 @include for-desktop {
                     max-width: 25rem;
+                }
+
+                img {
+                    height: 100%;
+                    width: 100%;
                 }
             }
 

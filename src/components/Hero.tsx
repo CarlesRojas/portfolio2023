@@ -1,5 +1,4 @@
 import s from "@styles/components/Hero.module.scss";
-import ProfilePicture from "@resources/profile/Profile.png";
 import Image from "next/future/image";
 import { useEffect } from "react";
 import useAutoResetState from "@hooks/useAutoResetState";
@@ -8,6 +7,7 @@ import { RoutePaths } from "@interfaces/routes";
 import { RiGithubFill, RiLinkedinFill, RiMailFill } from "react-icons/ri";
 import { signOut, useSession } from "next-auth/react";
 import { SessionStatus } from "@interfaces/session";
+import { PROFILE_PICTURE } from "@interfaces/constants";
 
 interface HeroProps {
     header?: boolean;
@@ -31,7 +31,16 @@ const Hero = ({ header, footer }: HeroProps) => {
             <div className={s.card}>
                 {header && (
                     <header onClick={onProfileClick}>
-                        <Image src={ProfilePicture} alt="profile picture" priority />
+                        <div className={s.profileImage}>
+                            <Image
+                                src={PROFILE_PICTURE}
+                                alt="profile picture"
+                                fill
+                                priority
+                                sizes="(max-width: 768px) 17rem, 25rem"
+                            />
+                        </div>
+
                         <small>{"Hi"}</small>
                         <h1>{"I'm Carles Rojas"}</h1>
                         <h2>{"Software Engineer & Designer from Barcelona"}</h2>
