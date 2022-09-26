@@ -43,7 +43,7 @@ const Hero = ({ header, footer }: HeroProps) => {
     }, [profileClicks, router]);
 
     return (
-        <div className={`${s.hero} ${!header || !footer ? s.fitContent : ""}`}>
+        <div className={`${s.hero} ${!header || !footer ? s.fitContent : ""} ${header && footer ? s.lateralHero : ""}`}>
             <div className={s.card}>
                 {header && (
                     <header>

@@ -1,18 +1,13 @@
 import type { NextPage } from "next";
 import s from "@styles/pages/Home.module.scss";
 import Hero from "@components/Hero";
-import useWindowSize from "@hooks/useWindowSize";
 import { trpc } from "@server/utils/trpc";
 import Section from "@components/Section";
-import { DESKTOP_THRESHOLD } from "@interfaces/constants";
 // import useDidMount from "@hooks/useDidMount";
 
 const Home: NextPage = () => {
     const { data: sections } = trpc.useQuery(["public-get-sections"]);
     // const { mutate } = trpc.useMutation(["private-create-project"]);
-
-    const { width, height } = useWindowSize();
-    const lateralHero = width > height && width >= DESKTOP_THRESHOLD;
 
     // useDidMount(() => {
     //     mutate({
@@ -35,8 +30,8 @@ const Home: NextPage = () => {
 
     return (
         <main className={s.home}>
-            {lateralHero && <Hero header footer />}
-            {!lateralHero && <Hero header />}
+            <Hero header footer />
+            <Hero header />
 
             <div className={s.content}>
                 {sections?.map((section) => (
@@ -44,7 +39,7 @@ const Home: NextPage = () => {
                 ))}
             </div>
 
-            {!lateralHero && <Hero footer />}
+            <Hero footer />
         </main>
     );
 };

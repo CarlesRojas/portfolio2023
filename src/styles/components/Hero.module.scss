@@ -17,8 +17,19 @@
 
     @include for-landscape {
         @include for-desktop {
+            display: none;
             padding: min(10%, 4rem);
             padding-right: 0;
+        }
+    }
+
+    &.lateralHero {
+        display: none;
+
+        @include for-landscape {
+            @include for-desktop {
+                display: block;
+            }
         }
     }
 

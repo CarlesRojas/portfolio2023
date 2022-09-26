@@ -3,7 +3,7 @@ import { DESKTOP_THRESHOLD } from "@interfaces/constants";
 import { Project, Section } from "@prisma/client";
 import s from "@styles/components/Section.module.scss";
 import Image from "next/future/image";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 interface SectionProps {
     section: Section & {
@@ -35,7 +35,7 @@ const Section = ({ section }: SectionProps) => {
 
             <div className={s.scrollContainer} ref={containerRef}>
                 <ul>
-                    {section.projects.map((project, i) => (
+                    {section.projects.map((project) => (
                         <li key={project.name}>
                             <Image
                                 src={project.poster}
