@@ -36,7 +36,6 @@ export const privateRouter = createProtectedRouter()
         }),
         async resolve({ input }) {
             const { name, position, down } = input;
-            console.log(name, position, down);
 
             await prisma.section.update({
                 where: { position: position + (down ? 1 : -1) },

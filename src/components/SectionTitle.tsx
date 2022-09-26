@@ -79,8 +79,6 @@ const SectionTitle = ({ section, numberOfSections }: SectionTitleProps) => {
                     newSections[newIndex] = aux;
                 }
 
-                console.log(newSections);
-
                 trpcContext.setQueryData(["private-get-sections"], newSections);
             }
 
