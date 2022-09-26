@@ -8,14 +8,16 @@ import Image from "next/future/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
+import SectionTitle from "./SectionTitle";
 
 interface SectionProps {
     section: Section & {
         projects: Project[];
     };
+    numberOfSections: number;
 }
 
-const Section = ({ section }: SectionProps) => {
+const Section = ({ section, numberOfSections }: SectionProps) => {
     const { width, height } = useWindowSize();
     const lateralHero = width > height && width >= DESKTOP_THRESHOLD;
 
@@ -57,8 +59,8 @@ const Section = ({ section }: SectionProps) => {
     };
 
     return (
-        <div className={s.section}>
-            <h1>{section.name}</h1>
+        <div className={`${s.section} ${section.visible ? "" : s.notVisible}`}>
+            <SectionTitle section={section} numberOfSections={numberOfSections} />
 
             <div className={s.slider}>
                 <div className={s.scrollContainer} ref={containerRef}>

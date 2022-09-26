@@ -38,6 +38,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        align-items: center;
         height: 100%;
         width: 100%;
         padding: min(10%, 4rem);
@@ -95,6 +96,18 @@
 
                 @include header-small;
                 @include text-low;
+            }
+        }
+
+        .logout {
+            @include card(2);
+            width: fit-content;
+            padding: 1rem 2rem;
+
+            @include for-mouse {
+                &:hover {
+                    scale: 1.1;
+                }
             }
         }
 

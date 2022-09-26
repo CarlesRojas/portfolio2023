@@ -42,11 +42,13 @@ model Project {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@unique([sectionName, position])
 }
 
 model Section {
     name     String  @id
-    position Int
+    position Int     @unique
     visible  Boolean @default(true)
 
     projects Project[]

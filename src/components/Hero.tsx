@@ -6,6 +6,8 @@ import useAutoResetState from "@hooks/useAutoResetState";
 import { useRouter } from "next/router";
 import { RoutePaths } from "@interfaces/routes";
 import { RiGithubFill, RiLinkedinFill, RiMailFill } from "react-icons/ri";
+import { signOut, useSession } from "next-auth/react";
+import { SessionStatus } from "@interfaces/session";
 
 interface HeroProps {
     header?: boolean;
@@ -13,6 +15,7 @@ interface HeroProps {
 }
 
 const Hero = ({ header, footer }: HeroProps) => {
+    const { status } = useSession();
     const router = useRouter();
 
     const [profileClicks, setProfileClicks] = useAutoResetState(0, 500);
@@ -33,6 +36,12 @@ const Hero = ({ header, footer }: HeroProps) => {
                         <h1>{"I'm Carles Rojas"}</h1>
                         <h2>{"Software Engineer & Designer from Barcelona"}</h2>
                     </header>
+                )}
+
+                {header && status === SessionStatus.AUTHENTICATED && (
+                    <button className={s.logout} onClick={() => signOut()}>
+                        log out
+                    </button>
                 )}
 
                 {footer && (

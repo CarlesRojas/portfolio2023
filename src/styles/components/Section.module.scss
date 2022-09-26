@@ -20,9 +20,8 @@
         --paddingBot: 2rem;
     }
 
-    h1 {
-        @include header-medium;
-        padding-left: var(--gap);
+    &.notVisible {
+        opacity: 0.3;
     }
 
     .slider {

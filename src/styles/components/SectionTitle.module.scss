@@ -1,0 +1,27 @@
+@import "@styles/shared";
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+
+    h1 {
+        @include header-medium;
+        padding-left: var(--gap);
+        margin-right: 1rem;
+    }
+
+    form {
+        position: relative;
+        height: 2.5rem;
+        padding-left: var(--gap);
+        margin-right: 1rem;
+
+        input {
+            @include card(3);
+            @include text;
+            height: 100%;
+            width: fit-content;
+            padding: 0 1rem;
+        }
+    }
+}

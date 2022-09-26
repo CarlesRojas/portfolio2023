@@ -3,6 +3,15 @@ import { z } from "zod";
 import { createProtectedRouter } from "@server/utils/context";
 
 export const privateRouter = createProtectedRouter()
+    .query("get-sections", {
+        async resolve() {
+            return await prisma.section.findMany({
+                orderBy: { position: "asc" },
+                include: { projects: { orderBy: { position: "asc" } } },
+            });
+        },
+    })
+
     .mutation("create-section", {
         input: z.object({
             name: z.string(),
@@ -15,6 +24,56 @@ export const privateRouter = createProtectedRouter()
                 where: { name },
                 update: { name, position },
                 create: { name, position },
+            });
+        },
+    })
+
+    .mutation("move-section-down", {
+        input: z.object({
+            name: z.string(),
+            position: z.number(),
+        }),
+        async resolve({ input }) {
+            const { name, position } = input;
+
+            await prisma.section.update({
+                where: { position: position + 1 },
+                data: { position: -1 },
+            });
+
+            await prisma.section.update({
+                where: { name },
+                data: { position: position + 1 },
+            });
+
+            await prisma.section.update({
+                where: { position: -1 },
+                data: { position: position },
+            });
+        },
+    })
+
+    .mutation("move-section-up", {
+        input: z.object({
+            name: z.string(),
+            position: z.number(),
+        }),
+        async resolve({ input }) {
+            const { name, position } = input;
+
+            await prisma.section.update({
+                where: { position: position - 1 },
+                data: { position: -1 },
+            });
+
+            await prisma.section.update({
+                where: { name },
+                data: { position: position - 1 },
+            });
+
+            await prisma.section.update({
+                where: { position: -1 },
+                data: { position: position },
             });
         },
     })
@@ -178,6 +237,58 @@ export const privateRouter = createProtectedRouter()
                     landscape,
                     qrCode,
                 },
+            });
+        },
+    })
+
+    .mutation("move-project-down", {
+        input: z.object({
+            name: z.string(),
+            position: z.number(),
+            sectionName: z.string(),
+        }),
+        async resolve({ input }) {
+            const { name, position, sectionName } = input;
+
+            await prisma.project.update({
+                where: { sectionName_position: { sectionName, position: position + 1 } },
+                data: { position: -1 },
+            });
+
+            await prisma.project.update({
+                where: { name },
+                data: { position: position + 1 },
+            });
+
+            await prisma.project.update({
+                where: { sectionName_position: { sectionName, position: -1 } },
+                data: { position: position },
+            });
+        },
+    })
+
+    .mutation("move-project-up", {
+        input: z.object({
+            name: z.string(),
+            position: z.number(),
+            sectionName: z.string(),
+        }),
+        async resolve({ input }) {
+            const { name, position, sectionName } = input;
+
+            await prisma.project.update({
+                where: { sectionName_position: { sectionName, position: position - 1 } },
+                data: { position: -1 },
+            });
+
+            await prisma.project.update({
+                where: { name },
+                data: { position: position - 1 },
+            });
+
+            await prisma.project.update({
+                where: { sectionName_position: { sectionName, position: -1 } },
+                data: { position: position },
             });
         },
     })
