@@ -1,83 +1,151 @@
 @import "@styles/shared";
 
 .section {
-    h1 {
-        @include header-medium;
+    --gap: 1rem;
+    --paddingTop: 0.5rem;
+    --paddingBot: 2rem;
 
-        padding-left: 1rem;
-
-        @include for-tablet {
-            padding-left: 3rem;
-        }
-
-        @include for-desktop {
-            padding-left: min(3.5%, 4rem);
-        }
+    @include for-tablet {
+        --gap: 3rem;
+        --paddingTop: 0.75rem;
+        --paddingBot: 3rem;
     }
 
-    .scrollContainer {
-        overflow-y: hidden;
-        overflow-x: auto;
+    @include for-desktop {
+        --gap: min(3.5%, 4rem);
+        --paddingTop: 1rem;
+        --paddingBot: 4rem;
+    }
 
-        ul {
-            width: fit-content;
-            display: flex;
-            gap: 1rem;
-            overflow: visible;
-            padding: 0.5rem 1rem 2rem;
+    h1 {
+        @include header-medium;
+        padding-left: var(--gap);
+    }
 
-            @include for-tablet {
-                padding: 0.75rem 3rem 3rem;
-                gap: 1.5rem;
+    .slider {
+        position: relative;
+        width: 100%;
+        height: fit-content;
+
+        .scrollButtons {
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            justify-content: space-between;
+            padding: var(--paddingTop) 0 var(--paddingBot);
+            pointer-events: none;
+
+            &.hidden {
+                display: none !important;
             }
 
-            @include for-desktop {
-                padding: 1rem min(3.5%, 4rem) 4rem;
+            @include for-mouse {
+                display: flex;
             }
 
-            li {
+            button {
                 position: relative;
-                aspect-ratio: 16 / 9;
-                width: 88vw;
-                min-width: 88vw;
-                max-width: 88vw;
-                overflow: visible;
-                @include card(1);
+                height: 100%;
+                width: var(--gap);
+                background-color: rgba(0, 0, 0, 0.2);
+                pointer-events: all;
 
-                @include for-tablet {
-                    width: 42vw;
-                    min-width: 42vw;
-                    max-width: 42vw;
-                }
-
-                @include for-desktop {
-                    width: 30vw;
-                    min-width: 30vw;
-                    max-width: 30vw;
-                }
-
-                @include for-landscape {
-                    @include for-desktop {
-                        width: unset;
-                        min-width: unset;
-                        max-width: unset;
-                        height: 18vh;
-                        min-height: 18vh;
-                        max-height: 18vh;
-                    }
+                &.disable {
+                    pointer-events: none !important;
+                    opacity: 0 !important;
                 }
 
                 @include for-mouse {
-                    transition: scale 0.1s ease-in-out;
+                    opacity: 1;
+
+                    @include for-landscape {
+                        @include for-desktop {
+                            opacity: 0;
+                        }
+                    }
+
                     &:hover {
-                        scale: 1.03;
+                        opacity: 1;
+                        background-color: rgba(0, 0, 0, 0.3);
                     }
                 }
 
-                img {
-                    @include border-radius;
+                svg {
+                    width: 80%;
+                    height: 100%;
                     pointer-events: none;
-                    user-select: none;
+                }
+            }
+        }
+
+        .scrollContainer {
+            position: relative;
+            overflow-y: hidden;
+            overflow-x: auto;
+
+            ul {
+                width: fit-content;
+                display: flex;
+                gap: 1rem;
+                overflow: visible;
+                padding: var(--paddingTop) var(--gap) var(--paddingBot);
+
+                @include for-tablet {
+                    padding: var(--paddingTop) var(--gap) var(--paddingBot);
+                    gap: 1.5rem;
+                }
+
+                @include for-desktop {
+                    padding: var(--paddingTop) var(--gap) var(--paddingBot);
+                }
+
+                li {
+                    position: relative;
+                    aspect-ratio: 16 / 9;
+                    width: 88vw;
+                    min-width: 88vw;
+                    max-width: 88vw;
+                    overflow: visible;
+                    @include card(1);
+
+                    @include for-tablet {
+                        width: 42vw;
+                        min-width: 42vw;
+                        max-width: 42vw;
+                    }
+
+                    @include for-desktop {
+                        width: 30vw;
+                        min-width: 30vw;
+                        max-width: 30vw;
+                    }
+
+                    @include for-landscape {
+                        @include for-desktop {
+                            width: unset;
+                            min-width: unset;
+                            max-width: unset;
+                            height: 18vh;
+                            min-height: 18vh;
+                            max-height: 18vh;
+                        }
+                    }
+
+                    @include for-mouse {
+                        transition: scale 0.1s ease-in-out;
+                        &:hover {
+                            scale: 1.03;
+                        }
+                    }
+
+                    img {
+                        @include border-radius;
+                        pointer-events: none;
+                        user-select: none;
+                    }
                 }
             }
         }

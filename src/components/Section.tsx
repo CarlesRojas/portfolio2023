@@ -1,9 +1,13 @@
+import useObservableList from "@hooks/useObservableList";
 import useWindowSize from "@hooks/useWindowSize";
-import { DESKTOP_THRESHOLD } from "@interfaces/constants";
+import { DESKTOP_THRESHOLD, TABLET_THRESHOLD } from "@interfaces/constants";
 import { Project, Section } from "@prisma/client";
 import s from "@styles/components/Section.module.scss";
+import { getProjectRoute } from "@utils/getProjectRoute";
 import Image from "next/future/image";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 
 interface SectionProps {
     section: Section & {
@@ -29,24 +33,71 @@ const Section = ({ section }: SectionProps) => {
         };
     }, [lateralHero]);
 
+    const projects = useRef<(HTMLLIElement | null)[]>(new Array(section.projects.length));
+    const { allVisible, firstVisible, lastVisible, maxVisible } = useObservableList(containerRef, projects);
+
+    const getPadding = () => {
+        const width = containerRef.current?.getBoundingClientRect().width || 0;
+
+        // Has to be the same as --gap in @styles/components/Section.module.scss
+        const padding =
+            width < TABLET_THRESHOLD ? 16 : width < DESKTOP_THRESHOLD ? 16 * 3 : Math.min(width * 0.035, 16 * 4);
+
+        return padding;
+    };
+
+    const onScrollButtonClicked = (showNext: boolean) => {
+        const newFirstIndex = showNext
+            ? Math.min(section.projects.length - 1, lastVisible + 1)
+            : Math.max(0, firstVisible - maxVisible);
+
+        const newFirstProject = projects.current[newFirstIndex];
+
+        if (newFirstProject) {
+            const padding = getPadding();
+            const position = newFirstProject.offsetLeft - padding;
+            containerRef.current?.scrollTo({ left: position, behavior: "smooth" });
+        }
+    };
+
     return (
         <div className={s.section}>
             <h1>{section.name}</h1>
 
-            <div className={s.scrollContainer} ref={containerRef}>
-                <ul>
-                    {section.projects.map((project) => (
-                        <li key={project.name}>
-                            <Image
-                                src={project.poster}
-                                alt={`${project.name} poster image`}
-                                fill
-                                priority
-                                sizes="(max-width: 768px) 88vw, (max-width: 1200px) 42vw, (orientation: landscape) calc(18vh * 1.77777), 30vw"
-                            />
-                        </li>
-                    ))}
-                </ul>
+            <div className={s.slider}>
+                <div className={s.scrollContainer} ref={containerRef}>
+                    <ul>
+                        {section.projects.map((project, i) => (
+                            <Link key={project.name} href={getProjectRoute(project.name)}>
+                                <li ref={(elem) => (projects.current[i] = elem)}>
+                                    <Image
+                                        src={project.poster}
+                                        alt={`${project.name} poster image`}
+                                        fill
+                                        priority
+                                        sizes="(max-width: 768px) 88vw, (max-width: 1200px) 42vw, (orientation: landscape) calc(18vh * 1.77777), 30vw"
+                                    />
+                                </li>
+                            </Link>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className={`${s.scrollButtons} ${allVisible ? s.hidden : ""}`}>
+                    <button
+                        className={`${firstVisible <= 0 ? s.disable : ""}`}
+                        onClick={() => onScrollButtonClicked(false)}
+                    >
+                        <RiArrowLeftSLine />
+                    </button>
+
+                    <button
+                        className={`${lastVisible >= section.projects.length - 1 ? s.disable : ""}`}
+                        onClick={() => onScrollButtonClicked(true)}
+                    >
+                        <RiArrowRightSLine />
+                    </button>
+                </div>
             </div>
         </div>
     );

@@ -11,8 +11,8 @@ const Home: NextPage = () => {
 
     // useDidMount(() => {
     //     mutate({
-    //         name: "Delete4",
-    //         position: 0,
+    //         name: "Delete6",
+    //         position: 6,
     //         poster: "https://portfoliomedia.s3.eu-west-1.amazonaws.com/poster.jpg",
     //         icon: "",
     //         subtitle: "",
@@ -34,9 +34,7 @@ const Home: NextPage = () => {
             <Hero header />
 
             <div className={s.content}>
-                {sections?.map((section) => (
-                    <Section key={section.name} section={section} />
-                ))}
+                {sections?.map((section) => section.visible && <Section key={section.name} section={section} />)}
             </div>
 
             <Hero footer />
