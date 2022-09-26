@@ -13,12 +13,11 @@
 
     @include for-desktop {
         --gap: min(3.5%, 4rem);
-        --paddingTop: 1rem;
         --paddingBot: min(3.5%, 4rem);
     }
 
     &:last-child {
-        --paddingBot: 0;
+        --paddingBot: 2rem;
     }
 
     h1 {

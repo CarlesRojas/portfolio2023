@@ -66,6 +66,8 @@
                 height: auto;
                 width: 100%;
                 max-width: 17rem;
+                pointer-events: none;
+                user-select: none;
 
                 @include for-desktop {
                     max-width: 25rem;

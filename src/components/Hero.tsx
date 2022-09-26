@@ -27,8 +27,8 @@ const Hero = ({ header, footer }: HeroProps) => {
         <div className={`${s.hero} ${!header || !footer ? s.fitContent : ""} ${header && footer ? s.lateralHero : ""}`}>
             <div className={s.card}>
                 {header && (
-                    <header>
-                        <Image src={ProfilePicture} alt="profile picture" priority onClick={onProfileClick} />
+                    <header onClick={onProfileClick}>
+                        <Image src={ProfilePicture} alt="profile picture" priority />
                         <small>{"Hi"}</small>
                         <h1>{"I'm Carles Rojas"}</h1>
                         <h2>{"Software Engineer & Designer from Barcelona"}</h2>
