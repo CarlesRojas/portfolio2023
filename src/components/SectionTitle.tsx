@@ -124,7 +124,7 @@ const SectionTitle = ({ section, numberOfSections }: SectionTitleProps) => {
 
     const controls = [
         { icon: renaming ? <RiSendPlane2Fill /> : <RiEdit2Fill />, onClick: rename, disabled: isLoading },
-        { icon: section.visible ? <RiEyeFill /> : <RiEyeOffFill />, onClick: onShowHide, disabled: isLoading },
+        { icon: section.visible ? <RiEyeOffFill /> : <RiEyeFill />, onClick: onShowHide, disabled: isLoading },
         {
             icon: <RiArrowDownLine />,
             onClick: onMoveDown,
@@ -135,7 +135,7 @@ const SectionTitle = ({ section, numberOfSections }: SectionTitleProps) => {
 
     return (
         <div className={s.sectionTitle}>
-            {!renaming && <h1>{section.name}</h1>}
+            {!renaming && <h1 className={`${section.visible ? "" : s.notVisible}`}>{section.name}</h1>}
 
             {status === SessionStatus.AUTHENTICATED && renaming && (
                 <form onSubmit={rename}>

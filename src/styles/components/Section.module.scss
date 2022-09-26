@@ -20,14 +20,14 @@
         --paddingBot: 2rem;
     }
 
-    &.notVisible {
-        opacity: 0.3;
-    }
-
     .slider {
         position: relative;
         width: 100%;
         height: fit-content;
+
+        &.notVisible {
+            opacity: 0.3;
+        }
 
         .scrollButtons {
             display: none;

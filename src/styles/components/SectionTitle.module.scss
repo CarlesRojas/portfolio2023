@@ -8,6 +8,10 @@
         @include header-medium;
         padding-left: var(--gap);
         margin-right: 1rem;
+
+        &.notVisible {
+            opacity: 0.3;
+        }
     }
 
     form {

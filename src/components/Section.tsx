@@ -59,10 +59,10 @@ const Section = ({ section, numberOfSections }: SectionProps) => {
     };
 
     return (
-        <div className={`${s.section} ${section.visible ? "" : s.notVisible}`}>
+        <div className={s.section}>
             <SectionTitle section={section} numberOfSections={numberOfSections} />
 
-            <div className={s.slider}>
+            <div className={`${s.slider} ${section.visible ? "" : s.notVisible}`}>
                 <div className={s.scrollContainer} ref={containerRef}>
                     <ul>
                         {section.projects.map((project, i) => (
