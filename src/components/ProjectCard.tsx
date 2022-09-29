@@ -1,6 +1,6 @@
 import { isLoadingAtom } from "@context/index";
 import { SessionStatus } from "@interfaces/session";
-import { Project } from "@prisma/client";
+import { Project, Section } from "@prisma/client";
 import { trpc } from "@server/utils/trpc";
 import s from "@styles/components/ProjectCard.module.scss";
 import { getProjectRoute } from "@utils/getProjectRoute";
@@ -60,69 +60,73 @@ const ProjectCard = ({ project, numberOfProjects }: ProjectCardProps) => {
         },
     });
 
-    // TODO move project
-    // const { mutate: moveSection, isLoading: movingSection } = trpc.useMutation(["private-move-project"], {
-    //     onMutate: async (params) => {
-    //         await trpcContext.cancelQuery(["private-get-sections"]);
-    //         const prevSections = trpcContext.getQueryData(["private-get-sections"]);
+    const { mutate: moveProject, isLoading: movingProject } = trpc.useMutation(["private-move-project"], {
+        onMutate: async (params) => {
+            await trpcContext.cancelQuery(["private-get-sections"]);
+            const prevSections = trpcContext.getQueryData(["private-get-sections"]);
 
-    //         if (prevSections) {
-    //             const newSections = cloneDeep(prevSections);
+            if (prevSections) {
+                const newSections = cloneDeep(prevSections);
 
-    //             let currIndex = -1;
-    //             let newIndex = -1;
+                let sectionIndex = -1;
+                let currIndex = -1;
+                let newIndex = -1;
 
-    //             for (let i = 0; i < newSections.length; i++) {
-    //                 const element = newSections[i];
-    //                 if (element && element.name === params.name) {
-    //                     currIndex = i;
-    //                     break;
-    //                 }
-    //             }
+                for (let i = 0; i < newSections.length; i++) {
+                    const element = newSections[i];
 
-    //             newIndex = currIndex + (params.down ? 1 : -1);
+                    if (element && element.name === params.sectionName) {
+                        sectionIndex = i;
 
-    //             if (currIndex < newSections.length && newIndex < newSections.length) {
-    //                 const aux = { ...newSections[currIndex], position: newIndex } as Section & { projects: Project[] };
-    //                 newSections[currIndex] = { ...newSections[newIndex], position: currIndex } as Section & {
-    //                     projects: Project[];
-    //                 };
-    //                 newSections[newIndex] = aux;
-    //             }
+                        for (let j = 0; j < element.projects.length; j++) {
+                            const projectElement = element.projects[j];
+                            if (projectElement && projectElement.name === params.name) {
+                                currIndex = j;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
 
-    //             trpcContext.setQueryData(["private-get-sections"], newSections);
-    //         }
+                newIndex = currIndex + (params.right ? 1 : -1);
+                const projects = newSections[sectionIndex]?.projects || [];
 
-    //         return { prevSections: prevSections || [] };
-    //     },
-    //     onError: (_error, _value, context) => {
-    //         if (context) trpcContext.setQueryData(["private-get-sections"], context.prevSections);
-    //     },
-    //     onSettled: () => {
-    //         trpcContext.invalidateQueries(["private-get-sections"]);
-    //     },
-    // });
+                if (currIndex < projects.length && newIndex < projects.length) {
+                    const aux = { ...projects[currIndex], position: newIndex } as Project;
+                    projects[currIndex] = { ...projects[newIndex], position: currIndex } as Project;
+                    projects[newIndex] = aux;
+                }
+
+                trpcContext.setQueryData(["private-get-sections"], newSections);
+            }
+
+            return { prevSections: prevSections || [] };
+        },
+        onError: (_error, _value, context) => {
+            if (context) trpcContext.setQueryData(["private-get-sections"], context.prevSections);
+        },
+        onSettled: () => {
+            trpcContext.invalidateQueries(["private-get-sections"]);
+        },
+    });
 
     const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
 
-    // useEffect(() => {
-    //     setIsLoading(updatingProject || movingSection);
-    // }, [updatingProject, movingSection, setIsLoading]);
-
     useEffect(() => {
-        setIsLoading(updatingProject);
-    }, [updatingProject, setIsLoading]);
+        setIsLoading(updatingProject || movingProject);
+    }, [updatingProject, movingProject, setIsLoading]);
 
     const onShowHide = () => {
         updateProject({ ...project, originalName: project.name, visible: !project.visible });
     };
 
     const onMoveRight = () => {
-        // moveSection({ ...project, right: true });
+        moveProject({ ...project, right: true });
     };
 
     const onMoveLeft = () => {
-        // moveSection({ ...project, right: false });
+        moveProject({ ...project, right: false });
     };
 
     const controls = [
