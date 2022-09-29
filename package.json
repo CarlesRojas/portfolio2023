@@ -17,6 +17,7 @@
     "@trpc/react": "^9.27.2",
     "@trpc/server": "^9.27.2",
     "axios": "^0.27.2",
+    "framer-motion": "^7.5.0",
     "jotai": "^1.8.4",
     "lodash": "^4.17.21",
     "next": "12.2.5",

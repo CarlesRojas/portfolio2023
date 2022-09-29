@@ -3,6 +3,7 @@ import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
 import type { AppType } from "next/dist/shared/lib/utils";
+import Transition from "@components/Transition";
 import Head from "next/head";
 import { useEffect } from "react";
 import superjson from "superjson";
@@ -25,9 +26,11 @@ const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => 
                 <title>Carles Rojas - Portfolio</title>
             </Head>
 
-            <SessionProvider session={session}>
-                <Component {...pageProps} />
-            </SessionProvider>
+            <Transition>
+                <SessionProvider session={session}>
+                    <Component {...pageProps} />
+                </SessionProvider>
+            </Transition>
         </>
     );
 };
