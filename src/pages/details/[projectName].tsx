@@ -2,8 +2,6 @@ import type { GetServerSideProps, NextPage } from "next";
 import s from "@styles/pages/Details.module.scss";
 import { getServerAuthSession } from "@server/utils/get-server-auth-session";
 import { RoutePaths } from "@interfaces/routes";
-import { useRouter } from "next/router";
-// import useDidMount from "@hooks/useDidMount";
 
 export interface DetailsProps {
     projectName: string;

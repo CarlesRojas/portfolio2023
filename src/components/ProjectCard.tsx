@@ -1,6 +1,6 @@
 import { isLoadingAtom } from "@context/index";
 import { SessionStatus } from "@interfaces/session";
-import { Project, Section } from "@prisma/client";
+import { Project } from "@prisma/client";
 import { trpc } from "@server/utils/trpc";
 import s from "@styles/components/ProjectCard.module.scss";
 import { getProjectRoute } from "@utils/getProjectRoute";
