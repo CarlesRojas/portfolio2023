@@ -5,6 +5,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import { Provider } from "next-auth/providers";
 import { getProviders, signIn } from "next-auth/react";
 import Image from "next/future/image";
+import Link from "next/link";
 import { RiGoogleFill } from "react-icons/ri";
 
 interface LoginProps {
@@ -33,6 +34,10 @@ const Login: NextPage<LoginProps> = (props) => {
                         <p>{`Sign in with ${provider.name}`}</p>
                     </button>
                 ))}
+
+            <Link href={RoutePaths.HOME}>
+                <a>back</a>
+            </Link>
         </main>
     );
 };

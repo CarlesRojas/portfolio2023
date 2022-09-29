@@ -32,4 +32,18 @@
             width: calc(var(--button-height) * 0.6);
         }
     }
+
+    a {
+        @include header-medium;
+        padding: 1rem 2rem;
+
+        @include for-desktop {
+            cursor: pointer;
+            opacity: 0.7;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
 }
