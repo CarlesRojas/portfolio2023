@@ -35,7 +35,7 @@ const Login: NextPage<LoginProps> = (props) => {
                     </button>
                 ))}
 
-            <Link href={RoutePaths.HOME}>
+            <Link href={RoutePaths.HOME} scroll={false}>
                 <a>back</a>
             </Link>
         </main>

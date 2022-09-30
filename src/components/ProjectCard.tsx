@@ -141,7 +141,7 @@ const ProjectCard = ({ project, numberOfProjects }: ProjectCardProps) => {
 
     return (
         <div className={s.projectCard}>
-            <Link href={getProjectRoute(project.name)}>
+            <Link href={getProjectRoute(project.name)} scroll={false}>
                 <div className={`${s.imageContainer} ${project.visible ? "" : s.notVisible}`}>
                     <Image
                         src={project.poster}

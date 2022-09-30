@@ -35,7 +35,7 @@ const Transition = ({ children }: TransitionProps) => {
                 animate="inactive"
                 exit="out"
             >
-                {children}
+                <div className={s.container}>{children}</div>
             </motion.div>
         </AnimatePresence>
     );
