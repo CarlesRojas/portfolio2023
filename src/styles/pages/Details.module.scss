@@ -11,18 +11,6 @@
         height: fit-content;
         min-height: 100%;
         max-width: 80rem;
-        display: flex;
-        gap: 1rem;
-
-        @include for-landscape {
-            @include for-tablet {
-                display: grid;
-                height: 100%;
-                grid-template-columns: 1fr 1fr;
-                grid-template-rows: 100%;
-                column-gap: var(--spacing);
-            }
-        }
 
         .close {
             @include card(2);
@@ -44,6 +32,25 @@
             svg {
                 width: 100%;
                 height: 100%;
+            }
+        }
+
+        .scroll {
+            position: relative;
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+
+            @include for-landscape {
+                @include for-tablet {
+                    display: grid;
+                    height: 100%;
+                    grid-template-columns: 1fr 1fr;
+                    grid-template-rows: 100%;
+                    column-gap: var(--spacing);
+                }
             }
         }
     }

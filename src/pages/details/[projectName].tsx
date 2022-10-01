@@ -6,6 +6,8 @@ import { RiCloseLine } from "react-icons/ri";
 import { useRouter } from "next/router";
 import useClickOutsideRef from "@hooks/useClickOutsideRef";
 import { useRef } from "react";
+import ProjectInfo from "@components/ProjectInfo";
+import { trpc } from "@server/utils/trpc";
 
 export interface DetailsProps {
     projectName: string;
@@ -28,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const Details: NextPage<DetailsProps> = ({ projectName }) => {
     const router = useRouter();
-    console.log(projectName);
+    const { data: projectDetails } = trpc.useQuery(["public-get-project-details", { name: projectName }]);
 
     const sectionRef = useRef<HTMLElement>(null);
     useClickOutsideRef(sectionRef, () => router.push(RoutePaths.HOME));
@@ -40,7 +42,7 @@ const Details: NextPage<DetailsProps> = ({ projectName }) => {
                     <RiCloseLine />
                 </button>
 
-                {projectName}
+                <div className={s.scroll}>{projectDetails && <ProjectInfo projectDetails={projectDetails} />}</div>
             </section>
         </main>
     );
