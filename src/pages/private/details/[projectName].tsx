@@ -2,6 +2,12 @@ import type { GetServerSideProps, NextPage } from "next";
 import s from "@styles/pages/Details.module.scss";
 import { getServerAuthSession } from "@server/utils/get-server-auth-session";
 import { RoutePaths } from "@interfaces/routes";
+import { useRouter } from "next/router";
+import { trpc } from "@server/utils/trpc";
+import { useRef } from "react";
+import useClickOutsideRef from "@hooks/useClickOutsideRef";
+import { RiCloseLine } from "react-icons/ri";
+import ProjectInfo from "@components/ProjectInfo";
 
 export interface DetailsProps {
     projectName: string;
@@ -20,9 +26,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const PrivateDetails: NextPage<DetailsProps> = ({ projectName }) => {
-    console.log(projectName);
+    const router = useRouter();
+    const { data: projectDetails } = trpc.useQuery(["public-get-project-details", { name: projectName }]);
 
-    return <main className={s.details}>{projectName}</main>;
+    const sectionRef = useRef<HTMLElement>(null);
+    useClickOutsideRef(sectionRef, () => router.push(RoutePaths.HOME));
+
+    return (
+        <main className={s.details}>
+            <section ref={sectionRef}>
+                <button className={s.close} onClick={() => router.push(RoutePaths.HOME)}>
+                    <RiCloseLine />
+                </button>
+
+                <div className={s.scroll}>{projectDetails && <ProjectInfo projectDetails={projectDetails} />}</div>
+            </section>
+        </main>
+    );
 };
 
 export default PrivateDetails;

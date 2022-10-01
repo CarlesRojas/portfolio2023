@@ -3,14 +3,16 @@ import s from "@styles/components/ProjectInfo.module.scss";
 import Image from "next/future/image";
 import { RiExternalLinkFill, RiGithubFill, RiGooglePlayFill, RiWindowsFill } from "react-icons/ri";
 import { QRCodeSVG } from "qrcode.react";
+import { useSession } from "next-auth/react";
 
 interface ProjectInfoProps {
     projectDetails: ProjectDetails;
 }
 
 const ProjectInfo = ({ projectDetails }: ProjectInfoProps) => {
+    const { status } = useSession();
     const { name, icon, subtitle, description, technicalDescription, links, qrCode } = projectDetails;
-    console.log(projectDetails);
+
     const getLinkIcon = (link: string) => {
         if (link.includes("github")) return <RiGithubFill />;
         if (link.includes("google")) return <RiGooglePlayFill />;
