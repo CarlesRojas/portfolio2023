@@ -1,11 +1,11 @@
 @mixin for-phone {
-    @media (max-width: 768px) {
+    @media (orientation: portrait) and (max-width: 768px), (orientation: landscape) and (max-width: 900px) {
         @content;
     }
 }
 
 @mixin for-tablet {
-    @media (min-width: 768px) {
+    @media (orientation: portrait) and (min-width: 768px), (orientation: landscape) and (min-width: 900px) {
         @content;
     }
 }

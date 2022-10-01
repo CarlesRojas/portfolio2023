@@ -17,6 +17,12 @@
             opacity: 0.3;
         }
 
+        @include for-landscape {
+            width: 42vw;
+            min-width: 42vw;
+            max-width: 42vw;
+        }
+
         @include for-tablet {
             width: 42vw;
             min-width: 42vw;
