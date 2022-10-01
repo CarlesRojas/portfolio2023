@@ -5,7 +5,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    padding-left: var(--gap);
+    padding-left: var(--spacing);
 
     h1 {
         @include header-medium;

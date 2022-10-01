@@ -5,20 +5,11 @@
     justify-content: space-between;
     height: 100%;
     width: 100%;
-    padding: 1rem;
-
-    @include for-tablet {
-        padding: 3rem;
-    }
-
-    @include for-desktop {
-        padding: min(3.5%, 4rem);
-    }
+    padding: var(--spacing);
 
     @include for-landscape {
         @include for-desktop {
             display: none;
-            padding: min(10%, 4rem);
             padding-right: 0;
         }
     }
@@ -41,17 +32,9 @@
         align-items: center;
         height: 100%;
         width: 100%;
-        padding: min(10%, 4rem);
-        gap: 1rem;
+        padding: var(--spacing);
+        gap: var(--spacing);
         @include card(1);
-
-        @include for-tablet {
-            gap: 3rem;
-        }
-
-        @include for-desktop {
-            gap: 4rem;
-        }
 
         &.fitContent {
             height: auto;

@@ -1,23 +1,10 @@
 @import "@styles/shared";
 
 .section {
-    --gap: 1rem;
     --paddingTop: 0.5rem;
-    --paddingBot: 2rem;
 
     @include for-tablet {
-        --gap: 3rem;
         --paddingTop: 0.75rem;
-        --paddingBot: 3rem;
-    }
-
-    @include for-desktop {
-        --gap: min(3.5%, 4rem);
-        --paddingBot: min(3.5%, 4rem);
-    }
-
-    &:last-child {
-        --paddingBot: 2rem;
     }
 
     .slider {
@@ -37,7 +24,7 @@
             bottom: 0;
             top: 0;
             justify-content: space-between;
-            padding: var(--paddingTop) 0 var(--paddingBot);
+            padding: var(--paddingTop) 0 var(--spacing);
             pointer-events: none;
 
             &.hidden {
@@ -51,7 +38,7 @@
             button {
                 position: relative;
                 height: 100%;
-                width: var(--gap);
+                width: var(--spacing);
                 background-color: rgba(0, 0, 0, 0.2);
                 pointer-events: all;
 
@@ -93,15 +80,15 @@
                 display: flex;
                 gap: 1rem;
                 overflow: visible;
-                padding: var(--paddingTop) var(--gap) var(--paddingBot);
+                padding: var(--paddingTop) var(--spacing) calc(var(--spacing) * 2);
 
                 @include for-tablet {
-                    padding: var(--paddingTop) var(--gap) var(--paddingBot);
+                    padding: var(--paddingTop) var(--spacing) var(--spacing);
                     gap: 1.5rem;
                 }
 
                 @include for-desktop {
-                    padding: var(--paddingTop) var(--gap) var(--paddingBot);
+                    padding: var(--paddingTop) var(--spacing) var(--spacing);
                 }
 
                 li {

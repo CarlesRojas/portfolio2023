@@ -7,6 +7,22 @@
     --textDark: white;
 
     --font-size: 16px;
+
+    --spacing: 1rem;
+
+    @include for-tablet {
+        --spacing: 3rem;
+    }
+
+    @include for-desktop {
+        --spacing: min(3.5%, 4rem);
+    }
+
+    @include for-landscape {
+        @include for-desktop {
+            --spacing: min(10%, 4rem);
+        }
+    }
 }
 
 * {

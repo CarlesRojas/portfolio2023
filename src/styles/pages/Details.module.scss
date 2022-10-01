@@ -2,21 +2,7 @@
 
 .details {
     @include page;
-    padding: 1rem;
-
-    @include for-tablet {
-        padding: 3rem;
-    }
-
-    @include for-desktop {
-        padding: min(3.5%, 4rem);
-    }
-
-    @include for-landscape {
-        @include for-desktop {
-            padding: min(10%, 4rem);
-        }
-    }
+    padding: var(--spacing);
 
     section {
         @include for-phone {
