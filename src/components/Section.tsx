@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import ProjectCard from "./ProjectCard";
 import SectionTitle from "./SectionTitle";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 interface SectionProps {
     section: Section & {
@@ -56,13 +57,15 @@ const Section = ({ section, numberOfSections }: SectionProps) => {
         }
     };
 
+    const [parent] = useAutoAnimate<HTMLUListElement>();
+
     return (
         <div className={s.section}>
             <SectionTitle section={section} numberOfSections={numberOfSections} />
 
             <div className={`${s.slider} ${section.visible ? "" : s.notVisible}`}>
                 <div className={s.scrollContainer} ref={containerRef}>
-                    <ul>
+                    <ul ref={parent}>
                         {section.projects.map((project, i) => (
                             <li key={project.name} ref={(elem) => (projects.current[i] = elem)}>
                                 <ProjectCard project={project} numberOfProjects={section.projects.length} />
