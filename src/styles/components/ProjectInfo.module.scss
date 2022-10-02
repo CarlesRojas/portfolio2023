@@ -70,6 +70,8 @@
         a {
             position: relative;
             padding: 0.75rem;
+            width: 100%;
+            aspect-ratio: 1;
             @include card(2);
 
             &.qr {
@@ -91,6 +93,7 @@
 
             svg {
                 width: 100%;
+                aspect-ratio: 1;
                 height: fit-content;
                 pointer-events: none;
                 user-select: none;
