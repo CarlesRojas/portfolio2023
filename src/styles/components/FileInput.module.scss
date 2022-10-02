@@ -1,0 +1,81 @@
+@import "@styles/shared";
+
+.fileInput {
+    position: relative;
+    --border-margin: 0.5rem;
+    @include card(3);
+
+    @include for-tablet {
+        --border-margin: 1rem;
+    }
+
+    img {
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    input {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+
+        &:hover {
+            @include for-mouse {
+                cursor: pointer;
+            }
+        }
+    }
+
+    svg {
+        pointer-events: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 2rem;
+        height: 2rem;
+        color: black;
+
+        @include for-tablet {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+    }
+
+    .border {
+        pointer-events: none;
+        position: absolute;
+        top: var(--border-margin);
+        left: var(--border-margin);
+        bottom: var(--border-margin);
+        right: var(--border-margin);
+        border: 2px dashed rgba(0, 0, 0, 0.5);
+        @include border-radius-inner;
+    }
+
+    &.hide {
+        box-shadow: none !important;
+        background-color: transparent !important;
+
+        svg,
+        .border {
+            display: none;
+        }
+    }
+
+    &.active,
+    &:hover {
+        svg {
+            color: var(--accent);
+        }
+
+        .border {
+            border: 3px dashed var(--accent);
+        }
+    }
+}

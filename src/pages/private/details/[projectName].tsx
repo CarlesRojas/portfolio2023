@@ -4,10 +4,10 @@ import { getServerAuthSession } from "@server/utils/get-server-auth-session";
 import { RoutePaths } from "@interfaces/routes";
 import { useRouter } from "next/router";
 import { trpc } from "@server/utils/trpc";
-import { useRef } from "react";
+import { FormEvent, useRef } from "react";
 import useClickOutsideRef from "@hooks/useClickOutsideRef";
 import { RiCloseLine } from "react-icons/ri";
-import ProjectInfo from "@components/ProjectInfo";
+import PrivateProjectInfo from "@components/PrivateProjectInfo";
 
 export interface DetailsProps {
     projectName: string;
@@ -29,18 +29,32 @@ const PrivateDetails: NextPage<DetailsProps> = ({ projectName }) => {
     const router = useRouter();
     const { data: projectDetails } = trpc.useQuery(["public-get-project-details", { name: projectName }]);
 
-    const sectionRef = useRef<HTMLElement>(null);
+    const sectionRef = useRef<HTMLFormElement>(null);
     useClickOutsideRef(sectionRef, () => router.push(RoutePaths.HOME));
+
+    const saveProject = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const icon = (event.currentTarget.elements.namedItem("icon") as HTMLInputElement)?.files;
+        const name = (event.currentTarget.elements.namedItem("name") as HTMLInputElement)?.value;
+        const subtitle = (event.currentTarget.elements.namedItem("subtitle") as HTMLInputElement)?.value;
+
+        console.log(icon);
+        console.log(name);
+        console.log(subtitle);
+    };
 
     return (
         <main className={s.details}>
-            <section ref={sectionRef}>
-                <button className={s.close} onClick={() => router.push(RoutePaths.HOME)}>
+            <form ref={sectionRef} onSubmit={saveProject}>
+                <button className={s.close} onClick={() => router.push(RoutePaths.HOME)} type="button">
                     <RiCloseLine />
                 </button>
 
-                <div className={s.scroll}>{projectDetails && <ProjectInfo projectDetails={projectDetails} />}</div>
-            </section>
+                <div className={s.scroll}>
+                    {projectDetails && <PrivateProjectInfo projectDetails={projectDetails} />}
+                </div>
+            </form>
         </main>
     );
 };

@@ -36,7 +36,7 @@ const Login: NextPage<LoginProps> = (props) => {
                 ))}
 
             <Link href={RoutePaths.HOME}>
-                <a>back</a>
+                <a>Back</a>
             </Link>
         </main>
     );

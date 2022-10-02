@@ -20,7 +20,7 @@
         padding: 1rem 1.5rem;
         @include card(2);
 
-        @include for-desktop {
+        @include for-mouse {
             &:hover {
                 scale: 1.05;
             }
@@ -34,15 +34,15 @@
     }
 
     a {
-        @include header-medium;
-        padding: 1rem 2rem;
+        @include card(2);
+        @include text-bold;
+        padding: 1rem 1.5rem;
 
-        @include for-desktop {
+        @include for-mouse {
             cursor: pointer;
-            opacity: 0.7;
 
             &:hover {
-                opacity: 1;
+                scale: 1.05;
             }
         }
     }

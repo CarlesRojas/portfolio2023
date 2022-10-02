@@ -4,7 +4,8 @@
     @include page;
     padding: var(--spacing);
 
-    section {
+    section,
+    form {
         @include card(1);
         position: relative;
         width: 100%;
